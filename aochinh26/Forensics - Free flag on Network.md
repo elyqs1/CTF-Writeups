@@ -1,4 +1,5 @@
 Statement: [here](https://drive.google.com/drive/folders/1jKuvDrzLHvQ_wgcKewByXHO6Aas1OkTy)
+
 The `description.txt` shows below: 
 ```bash
 - Category: Forensics
@@ -22,5 +23,20 @@ When we try opening `flag0.txt`, we'll see on the third line that it's a Base64 
 
 As we can see, at the end of the hexdump of that decoded base64 string, it's a PNG signature, but it's reversed.
 
-Finally, we decode the base64 string in each flag file and concatenate them to get a PNG flag file. Using below code to do that.
+Finally, we decode the base64 string in each flag file, reverse each of them, and concatenate them to get a PNG flag file. Using below code to do that.
+
+```python
+import base64
+
+with open("ans.png", "wb") as f:
+    res = b''
+    for i in range(100):
+        with open(f"flag{i}.txt", "r") as g:
+            tmp = base64.b64decode(g.read().splitlines()[3].strip())
+            res = res + tmp[::-1]
+
+    f.write(res)
+```
+Flag: 
+<img width="1152" height="738" alt="image" src="https://github.com/user-attachments/assets/03bf27a1-e0f5-4077-99c3-603a0db42656" />
 
