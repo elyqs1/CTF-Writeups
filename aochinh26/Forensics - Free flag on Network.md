@@ -17,11 +17,18 @@ After we open `challenge.pcap`, we can examine some files transferred in the `ex
 
 <img width="852" height="632" alt="image" src="https://github.com/user-attachments/assets/62139bb7-6d01-4b2d-a31a-e7111568a4e6" />
 
-When we try opening `flag0.txt`, we'll see on the third line that it's a Base64 string; then we try decoding it, 
+When we try opening `flag0.txt`, we'll see on the third line that it's a Base64 string; then we try decoding it.
+```bash
+--e37ba8dcb728de3ae6d9f51b583984e5
+Content-Disposition: form-data; name="file"; filename="flag0.txt"
+
+AEAE5IAAAAAgAnJAAAAAEAE5IAAAAAgAnJAAAAAEAEXIAAAAAB/xP/akAAAAAM+f/kln61rbLa7PZye08Zrr7dLf/Xd4+5VuftRvmFgYGB8LCwsDAwMLCwMD4WFZYGBgSXmZgTO8lgYWFhYGFhYWF+A32zbcsC/d7V54VEFESRdTAAB4H2beAXQSAAB0EgAAc1lIcAkAAAAFYfwLj7EAAEFNQWcEAAAA6RzOrgBCR1JzAQAAADGtRKEAAAAGCOICAACABAAAUkRISQ0AAAAKGgoNR05QiQ==
+--e37ba8dcb728de3ae6d9f51b583984e5--
+
+```
+As we can see, at the end of the hexdump of that decoded base64 string, it's a PNG signature, but it's reversed.
 
 <img width="782" height="376" alt="image" src="https://github.com/user-attachments/assets/8ce8bcdb-269c-4d25-96f8-5a620b09c330" />
-
-As we can see, at the end of the hexdump of that decoded base64 string, it's a PNG signature, but it's reversed.
 
 Finally, we decode the base64 string in each flag file, reverse each of them, and concatenate them to get a PNG flag file. Using below code to do that.
 
