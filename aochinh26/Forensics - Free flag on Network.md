@@ -19,7 +19,8 @@ After we open `challenge.pcap`, we can examine some files transferred in the `ex
 When we try opening `flag0.txt`, we'll see on the third line that it's a Base64 string; then we try decoding it, 
 
 <img width="782" height="376" alt="image" src="https://github.com/user-attachments/assets/8ce8bcdb-269c-4d25-96f8-5a620b09c330" />
-As we see, at the end of the hexdump of that decoded base64 string, it's a PNG signature but it's reversed.
+
+As we can see, at the end of the hexdump of that decoded base64 string, it's a PNG signature, but it's reversed.
 
 Finally, we decode the base64 string in each flag file and concatenate them to get a PNG flag file. Using below code to do that.
 
