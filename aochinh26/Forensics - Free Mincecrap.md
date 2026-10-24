@@ -149,7 +149,7 @@ export IV_R="$(printf $SEED_R | cut -c 33-64)"
 Vậy chúng ta phải tìm giá trị `$USER` cùng `$(hostname)`, vậy tìm ở đâu? 2 giá trị đó được lưu trữ tại `/etc/passwd` và `/etc/hostname` tại máy user
 
 <img width="345" height="303" alt="image" src="https://github.com/user-attachments/assets/a91d4e45-9d95-422c-97f5-bcbb364e80e9" />
-<img width="345" height="303" alt="image" src="https://github.com/user-attachments/assets/ec147c14-b785-4a16-88d5-e11662a237aa" />
+<img width="541" height="464" alt="Screenshot 2026-10-24 142539" src="https://github.com/user-attachments/assets/1342814c-73d4-40f3-b57c-81e6da8eb1a6" />
 
 Thay giá trị `$USER` cùng `$(hostname)`, ta tính được `KEY_R` và `IV_R`
 
