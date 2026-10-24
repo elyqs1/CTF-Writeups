@@ -138,15 +138,19 @@ find . -path '*/.*' -prune -o ! -name '*.naoyacrypted' -type f -print | while IF
 done
 ```
 
-Đoạn script ransom trên lấy tất cả các file trong thư mục hiện tại của user, sau đó encrypted từng file bằng AES-128-CBC cùng với `KEY_R` và `IV_R` làm chìa khóa (cũng như ổ khóa, bởi vì AES là phương thức mã hóa đối xứng). Kết quả là một loạt file bị mã hóa với đuôi `.naoyacrypted`
+Đoạn script ransom trên lấy tất cả các file trong thư mục hiện tại của user, sau đó tạo một bản sao của mỗi file gốc, bị mã hóa bằng AES-128-CBC với đuôi `.naoyacrypted`, cùng với `KEY_R` và `IV_R` làm ổ khóa. `shred -zu "$i` để xóa vĩnh viễn và triệt để các file gốc.
 
-Vì AES là mã hóa đối xứng, mình muốn giải mã các file `.naoyacrypted` thì phải có `KEY_R` và `IV_R`, giống như chìa khóa dùng để mã hóa file. Mà chúng ta đã có `KEY_R` và `IV_R` thông qua `decrypter.sh`. 2 giá trị đó được tính như sau (tại `decrypter.sh`):
+> `shred -zu "$i` xóa mạnh hơn lệnh `rm`. Vì `rm` chỉ xóa pointer trỏ đến file, đánh dấu là EMPTY, nhưng bản chất file vẫn nằm trên ổ cứng, file recovery có thể khôi phục được. Còn `shred -zu "$i"` can thiệp trực tiếp vào vùng nhớ của file, ghi đè lặp đi lặp lại loạt ký tự rác lên đó, dẫn đến xóa sạch dấu vết của file gốc, công cụ file recovery không thể khôi phục lại được.
+
+Vì AES là mã hóa đối xứng, mình muốn giải mã các file `.naoyacrypted` thì phải có `KEY_R` và `IV_R`, giống như chìa khóa dùng để mã hóa file (2 giá trị đó vừa đóng vai trò là một ổ khóa để mã hóa, vừa là chìa khóa để giải mã). Mà chúng ta đã có `KEY_R` và `IV_R` thông qua `decrypter.sh`. 2 giá trị đó được tính như sau (tại `decrypter.sh`):
+
 ```bash
 SEED_R="$(printf "$USER-$(hostname)" | sha256sum)"
 export KEY_R="$(printf $SEED_R | cut -c 1-32)"
 export IV_R="$(printf $SEED_R | cut -c 33-64)"
 ```
-Vậy chúng ta phải tìm giá trị `$USER` cùng `$(hostname)`, vậy tìm ở đâu? 2 giá trị đó được lưu trữ tại `/etc/passwd` và `/etc/hostname` tại máy user
+
+Chúng ta cần mô phỏng cuộc tấn công được thực hiện trên máy user, vậy chúng ta phải tìm giá trị `$USER` cùng `$(hostname)`.Tìm ở đâu? 2 giá trị đó được lưu trữ tại `/etc/passwd` và `/etc/hostname` tại máy user
 
 <img width="345" height="303" alt="image" src="https://github.com/user-attachments/assets/a91d4e45-9d95-422c-97f5-bcbb364e80e9" />
 <img width="541" height="464" alt="Screenshot 2026-10-24 142539" src="https://github.com/user-attachments/assets/1342814c-73d4-40f3-b57c-81e6da8eb1a6" />
