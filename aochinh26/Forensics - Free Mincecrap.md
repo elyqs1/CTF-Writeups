@@ -140,7 +140,7 @@ done
 
 Đoạn script ransom trên lấy tất cả các file trong thư mục hiện tại của user, sau đó tạo một bản sao của mỗi file gốc, bị mã hóa bằng AES-128-CBC với đuôi `.naoyacrypted`, cùng với `KEY_R` và `IV_R` làm ổ khóa. `shred -zu "$i` để xóa vĩnh viễn và triệt để các file gốc.
 
-> `shred -zu "$i` xóa mạnh hơn lệnh `rm`. Vì `rm` chỉ xóa pointer trỏ đến file, đánh dấu là EMPTY, nhưng bản chất file vẫn nằm trên ổ cứng, file recovery có thể khôi phục được. Còn `shred -zu "$i"` can thiệp trực tiếp vào vùng nhớ của file, ghi đè lặp đi lặp lại loạt ký tự rác lên đó, dẫn đến xóa sạch dấu vết của file gốc, công cụ file recovery không thể khôi phục lại được.
+> `shred -zu "$i` xóa mạnh hơn lệnh `rm $i`. Vì `rm` chỉ xóa pointer trỏ đến file, đánh dấu là EMPTY, nhưng bản chất file vẫn nằm trên ổ cứng, file recovery có thể khôi phục được. Còn `shred -zu "$i"` can thiệp trực tiếp vào vùng nhớ của file, ghi đè lặp đi lặp lại loạt ký tự rác lên đó, dẫn đến xóa sạch dấu vết của file gốc, công cụ file recovery không thể khôi phục lại được.
 
 Vì AES là mã hóa đối xứng, mình muốn giải mã các file `.naoyacrypted` thì phải có `KEY_R` và `IV_R`, giống như chìa khóa dùng để mã hóa file (2 giá trị đó vừa đóng vai trò là một ổ khóa để mã hóa, vừa là chìa khóa để giải mã). Mà chúng ta đã có `KEY_R` và `IV_R` thông qua `decrypter.sh`. 2 giá trị đó được tính như sau (tại `decrypter.sh`):
 
