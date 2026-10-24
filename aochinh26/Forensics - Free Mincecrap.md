@@ -85,7 +85,7 @@ sleep 1
 
 printf "Sorry your Minecrap is not available right naow, plaese try agian later."
 ```
-Bash trên tiếp tục tải tự động file `decrypter.sh`
+Bash trên tiếp tục tải và thực thi tự động file `decrypter.sh`
 ```bash
 #!/usr/bin/env sh
 
