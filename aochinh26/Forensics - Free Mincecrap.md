@@ -140,7 +140,7 @@ done
 
 Đoạn script ransom trên lấy tất cả các file trong thư mục hiện tại của user, sau đó encrypted từng file bằng AES-128-CBC cùng với `KEY_R` và `IV_R` làm chìa khóa (cũng như ổ khóa, bởi vì AES là phương thức mã hóa đối xứng). Kết quả là một loạt file bị mã hóa với đuôi `.naoyacrypted`
 
-Vì AES là mã hóa đối xứng, mình muốn giải mã các file `.naoyacrypted` thì phải có `KEY_R` và `IV_R`. Mà chúng ta đã có `KEY_R` và `IV_R` thông qua `decrypter.sh`. 2 giá trị đó được tính như sau (tại `decrypter.sh`):
+Vì AES là mã hóa đối xứng, mình muốn giải mã các file `.naoyacrypted` thì phải có `KEY_R` và `IV_R`, giống như chìa khóa dùng để mã hóa file. Mà chúng ta đã có `KEY_R` và `IV_R` thông qua `decrypter.sh`. 2 giá trị đó được tính như sau (tại `decrypter.sh`):
 ```bash
 SEED_R="$(printf "$USER-$(hostname)" | sha256sum)"
 export KEY_R="$(printf $SEED_R | cut -c 1-32)"
