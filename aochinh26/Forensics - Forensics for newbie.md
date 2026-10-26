@@ -83,6 +83,7 @@ Tiến hành unzip `file.0xdd84dba88cd0.0xdd84de7e1e30.DataSectionObject.secret.
 <img width="384" height="462" alt="image" src="https://github.com/user-attachments/assets/8be3cf1f-73a4-49cc-afd5-ecd7abd42c37" />
 
 Flag: 
+
 <img width="970" height="536" alt="secret" src="https://github.com/user-attachments/assets/a6e26d3a-93e6-4864-852f-3f7845e07557" />
 
 
