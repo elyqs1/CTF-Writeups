@@ -1,5 +1,5 @@
 # WannaGame-Recruit-2026-Solutions
-**Statement:** [enum-or-exfil?](https://ctf.uithacking.club/training/6?challenge=27)
+**Statement:** [enum-or-exfil?]([https://ctf.uithacking.club/training/6?challenge=27](https://drive.google.com/file/d/1bVYRk07nIVl9CKht5-p-rfBqpbxaAQId/view?usp=sharing))
 
 First of all, we're given a Packet Capture file (PCAP), there are lots of packets here.
 
