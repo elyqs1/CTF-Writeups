@@ -27,7 +27,7 @@ trong trường hợp này server là `192.168.247.1`
 
 <img width="1895" height="834" alt="image" src="https://github.com/user-attachments/assets/d7eb9baa-3252-41a6-93c4-ac8452e572f6" />
 
-Dựa vào đoạn code dưới, 2 host đã trao đổi `array` và `array2` với nhau (chưa qua mã hóa) để tạo ra `seed` phục vụ cho việc tạo `SessionKey`- được sử dụng chung giữa 2 host trong việc mã hóa gói tin
+Dựa vào đoạn code dưới, 2 host đã trao đổi `array` và `array2` với nhau (chưa qua mã hóa) để tạo ra `seed` phục vụ cho việc tạo `SessionKey`- được sử dụng chung giữa 2 host trong việc mã hóa gói tin.
 `SessionKey` vừa đóng vai trò mã hóa vừa giải mã gói tin (bởi vì đây là thuật toán AES mã hóa đối xứng)
 
 ```C#
@@ -53,6 +53,14 @@ byte[] data = Program.EncryptECB(Program.GenerateECBKey(seed), CS$<>8__locals1.s
 Program.WriteMessage(CS$<>8__locals1.stream, data);
 byte[] bytes = Program.ReadMessage(CS$<>8__locals1.stream);
 ```
+
+TCP stream giữa 2 host
+<img width="989" height="125" alt="Screenshot 2026-11-17 214154" src="https://github.com/user-attachments/assets/804b51d8-b4ce-4532-aa7b-62fa80a15ba9" />
+<img width="602" height="310" alt="image" src="https://github.com/user-attachments/assets/9da3a594-f8eb-48df-9588-3361122f6293" />
+
+
+
+
 Nhiệm vụ của ta là tìm được giá trị của `SessionKey` để có thể giải mã đoạn giao tiếp sau đó. Sử dụng script sau để tìm
 ```python
 from Crypto.Cipher import AES
@@ -91,3 +99,5 @@ seed = int.from_bytes(array3, byteorder="big") # big endian
 data = bytearray.fromhex("9738cd8617b997255230ef47b7b4aa5af3cb4c0c31052f8ff11cdd930315d1fb") # encrypted_session_key
 session_key = decrypt_ecb(GenerateECBKey(seed), data)
 ```
+
+
