@@ -82,14 +82,6 @@ def decrypt_ecb(key: bytearray, ciphertext: bytearray) -> bytearray:
     cipher = AES.new(key, AES.MODE_ECB)
     return cipher.decrypt(ciphertext)
 
-def decrypt_gcm(key: bytearray, payload: bytearray) -> bytearray:
-    nonce = payload[:12]
-    ciphertext = payload[12:-16]
-    tag = payload[-16:]
-    cipher = AES.new(key, AES.MODE_GCM, nonce = nonce)
-    return cipher.decrypt_and_verify(ciphertext, tag)
-
-
 array = bytearray.fromhex("44ad838a9c5b6a8e")
 array2 = bytearray.fromhex("15f4c24b7bb9a73f")
 array3 = bytearray(array[i] ^ array2[i] for i in range(8))
