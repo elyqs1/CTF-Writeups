@@ -131,8 +131,29 @@ File gửi đi thường chia ra thành các packet có số lượng byte lớn
 Bắt các gói tin của FIle Zip đó:
 
 ```bash
-$ tshark -r challenge.pcapng -Y "ip.addr==192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=1000" -T fields -e data.data > conv.txt
+$ tshark -r challenge.pcapng -Y "ip.addr==192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=598" -T fields -e data.data > conv.txt
 ```
+
+```python
+with open("conv.txt", "r") as f:
+    data = "".join(f.read().splitlines()).strip()
+with open("secret.zip", "wb") as f:
+    f.write(base64.b64decode(decrypt_gcm(session_key, bytearray.fromhex(data)).decode("utf-8")))
+```
+
+Khi thử giải nén `secret.zip`, nó yêu cầu password. Vậy kiếm đâu ra :))?
+Ta thấy được nó đã bị mã hóa `ZipCrypto Store`, có cách để bẻ khóa?
+
+Tìm hiểu bài viết này để nắm cách crack [ZipCrypto plaintext attack](https://wiki.anter.dev/misc/plaintext-attack-zipcrypto/#the-problem-with-zipcrypto-deflate)
+
+Làm như hướng dẫn với plain.bin:
+`00000000: 8950 4e47 0d0a 1a0a 0000 000d            .PNG........`
+
+Thu được flag:
+
+<img width="868" height="1228" alt="hello" src="https://github.com/user-attachments/assets/c5c5d23b-2dfa-459b-bc5e-011cb4bd8898" />
+
+
 
 
 
