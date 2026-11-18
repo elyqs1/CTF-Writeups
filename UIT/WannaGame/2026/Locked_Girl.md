@@ -58,10 +58,8 @@ TCP stream giữa 2 host
 <img width="989" height="125" alt="Screenshot 2026-11-17 214154" src="https://github.com/user-attachments/assets/804b51d8-b4ce-4532-aa7b-62fa80a15ba9" />
 <img width="602" height="310" alt="image" src="https://github.com/user-attachments/assets/9da3a594-f8eb-48df-9588-3361122f6293" />
 
+Ta có thể có giá trị của `SessionKey` (bằng cách giải mã bằng `AES_ECB`) để có thể giải mã đoạn giao tiếp sau đó. Đoạn code sau để lấy giá trị `SessionKey`
 
-
-
-Nhiệm vụ của ta là tìm được giá trị của `SessionKey` để có thể giải mã đoạn giao tiếp sau đó. Sử dụng script sau để tìm
 ```python
 from Crypto.Cipher import AES
 import base64
@@ -91,5 +89,31 @@ seed = int.from_bytes(array3, byteorder="big") # big endian
 data = bytearray.fromhex("9738cd8617b997255230ef47b7b4aa5af3cb4c0c31052f8ff11cdd930315d1fb") # encrypted_session_key
 session_key = decrypt_ecb(GenerateECBKey(seed), data)
 ```
+
+Sau khi quá trình trên hoàn tất, 2 host trao đổi thông tin bị mã hóa `AES_GCM` với nhau, gói tin lúc này có dạng `nonce|ciphertext|tag`. Ta cần giải mã `ciphertext`. Sử dụng `tshark` để bắt các gói tin này
+
+<img width="984" height="234" alt="image" src="https://github.com/user-attachments/assets/bf0e6577-c3bc-4179-b344-dfbb253f1be8" />
+
+
+```bash
+$ tshark -r challenge.pcapng -Y "ip.addr=192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=91&&frame.len<=111" -T field -e data.data
+```
+
+```python
+def decrypt_gcm(key: bytearray, payload: bytearray) -> bytearray:
+    nonce = payload[:12]
+    ciphertext = payload[12:-16]
+    tag = payload[-16:]
+    cipher = AES.new(key, AES.MODE_GCM, nonce = nonce)
+    return cipher.decrypt_and_verify(ciphertext, tag)
+```
+
+Ciphertext sau khi giải mã:
+
+
+
+
+
+
 
 
