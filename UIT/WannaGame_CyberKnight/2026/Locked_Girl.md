@@ -96,7 +96,7 @@ Sau khi quá trình trên hoàn tất, 2 host trao đổi thông tin bị mã h�
 
 
 ```bash
-$ tshark -r challenge.pcapng -Y "ip.addr=192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=91&&frame.len<=111" -T field -e data.data
+$ tshark -r challenge.pcapng -Y "ip.addr=192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=91&&frame.len<=123" -T field -e data.data
 ```
 
 ```python
@@ -109,6 +109,31 @@ def decrypt_gcm(key: bytearray, payload: bytearray) -> bytearray:
 ```
 
 Ciphertext sau khi giải mã:
+```bash
+54n43: hi
+r31mu: hi
+54n43: anything interesting?
+r31mu: yeah
+r31mu: hang on let me send ya
+54n43: okay
+54n43: wow what is this?
+r31mu: decode base64 and read it yourself
+r31mu: the password I have told ya before
+54n43: okay
+54n43: yeah you remind me
+54n43: gotta learn windows internal soon
+54n43: oops gotta go
+54n43: see ya
+r31mu: bye
+```
+File gửi đi thường chia ra thành các packet có số lượng byte lớn. Dựa vào cuộc hội thoại trên, ta biết được packet thuộc File Zip cần decrypt `AES_GCM`, sau đó base64 decode.
+
+Bắt các gói tin của FIle Zip đó:
+
+```bash
+$ tshark -r challenge.pcapng -Y "ip.addr==192.168.247.1&&ip.addr == 192.168.247.152&&frame.len>=1000" -T fields -e data.data > conv.txt
+```
+
 
 
 
