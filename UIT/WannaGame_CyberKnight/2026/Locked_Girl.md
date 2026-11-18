@@ -56,7 +56,7 @@ byte[] bytes = Program.ReadMessage(CS$<>8__locals1.stream);
 
 TCP stream giữa 2 host
 <img width="989" height="125" alt="Screenshot 2026-11-17 214154" src="https://github.com/user-attachments/assets/804b51d8-b4ce-4532-aa7b-62fa80a15ba9" />
-<img width="602" height="310" alt="image" src="https://github.com/user-attachments/assets/9da3a594-f8eb-48df-9588-3361122f6293" />
+<img width="40%" alt="image" src="https://github.com/user-attachments/assets/9da3a594-f8eb-48df-9588-3361122f6293" />
 
 Ta có thể có giá trị của `SessionKey` (bằng cách giải mã bằng `AES_ECB`) để có thể giải mã đoạn giao tiếp sau đó. Đoạn code sau để lấy giá trị `SessionKey`
 
@@ -151,7 +151,7 @@ Làm như hướng dẫn với plain.bin:
 
 Thu được flag:
 
-<img width="868" height="1228" alt="hello" src="https://github.com/user-attachments/assets/c5c5d23b-2dfa-459b-bc5e-011cb4bd8898" />
+<img width="30%" alt="hello" src="https://github.com/user-attachments/assets/c5c5d23b-2dfa-459b-bc5e-011cb4bd8898" />
 
 
 
