@@ -144,6 +144,9 @@ with open("secret.zip", "wb") as f:
 Khi thử giải nén `secret.zip`, nó yêu cầu password. Vậy kiếm đâu ra :))?
 Ta thấy được nó đã bị mã hóa `ZipCrypto Store`, có cách để bẻ khóa?
 
+<img width="40%" alt="image" src="https://github.com/user-attachments/assets/d2351b62-e84d-4cf5-b7fe-222ba51c3d2e" />
+
+
 Tìm hiểu bài viết này để nắm cách crack [ZipCrypto plaintext attack](https://wiki.anter.dev/misc/plaintext-attack-zipcrypto/#the-problem-with-zipcrypto-deflate)
 
 Làm như hướng dẫn với plain.bin:
