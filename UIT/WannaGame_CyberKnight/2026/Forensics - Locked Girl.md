@@ -27,7 +27,7 @@ trong trường hợp này server là `192.168.247.1`
 
 <img width="1895" height="834" alt="image" src="https://github.com/user-attachments/assets/d7eb9baa-3252-41a6-93c4-ac8452e572f6" />
 
-Dựa vào đoạn code dưới, 2 host đã trao đổi `array` và `array2` với nhau (chưa qua mã hóa) để tạo ra `seed` phục vụ cho việc tạo `SessionKey`- được sử dụng chung giữa 2 host trong việc mã hóa gói tin.
+Dựa vào đoạn code dưới, 2 host đã trao đổi `array` và `array2` với nhau (chưa qua mã hóa) để tạo ra `seed` - nguyên liệu để tạo `SessionKey`- được sử dụng chung giữa 2 host trong việc mã hóa gói tin.
 `SessionKey` vừa đóng vai trò mã hóa vừa giải mã gói tin (bởi vì đây là thuật toán AES mã hóa đối xứng)
 
 ```C#
