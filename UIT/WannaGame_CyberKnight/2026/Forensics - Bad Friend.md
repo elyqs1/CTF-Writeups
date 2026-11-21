@@ -194,4 +194,90 @@ Script trên có hành vi của `KeyLogger`, các thao tác trên bàn phím tr�
 
 Key và IV được lấy từ `machine_guid` và `machine_name` trên máy nạn nhân. Lấy ở đâu? Đối với Windows, các biến đó được lưu trữ trong `Registry Editor`
 
+Để thuận tiện trong việc truy xuất `Registry Editor`, sử dụng `MemProcFS` để chuyển memory dump về virtual file system.
+
+```
+MemProcFS.exe -device challenge.dmp -forensic 1
+```
+
+`machine_name` được lưu trữ tại `HKLM\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName`, value là `DESKTOP-KA3APTF`
+`machine_guid` được lưu trữ tại `HKLM:\SOFTWARE\Microsoft\Cryptography`, value là `955dbad6-c040-45d0-8739-e86d3a6f2120`
+
+Từ đó, có được 
+```
+    Key (hex): 1525f68dbfd82b1d237f3f7bc5555493ff803d4e5102be31e38424138f4dff66
+    IV  (hex): 5cfc179298c058a1cf9da11c6a02592d
+```
+
+### Traffic
+Giờ đã có công cụ để giải mã các thao tác bàn phím  từ máy nạn nhân đến attacker.
+
+<img width="1552" height="697" alt="image" src="https://github.com/user-attachments/assets/03b24b13-db42-4b41-b67f-76ca80370e30" />
+
+Bắt trọn các stream bằng `tshark`
+```
+$ tshark -r challenge.pcapng -Y "ip.src == 192.168.49.137 && ip.dst == 172.22.85.56&& tcp.dstport == 8080&&frame.len ==78" -T fields -e tcp.payload
+4e464c6a306c43455066396e6c776a756a57443949773d3d
+7a474e6376717870706e4f7257683349366246614a513d3d
+384c6656706f366263516f4733616a38714a724c4c413d3d
+6f6671564935513744614a4a5a58763250354e5856413d3d
+736a70745a386e484b396a506b342b516a78516173773d3d
+52524f6439544e64696a4e794a2b51716551736844773d3d
+5633464e544562762f6c5143442f50644e61676f50413d3d
+327046526e516f4b714c592b617749496c3069567a413d3d
+31666873356e4946512f6551385468713945497266413d3d
+4657424f6a44545034366870304f49734338414838413d3d
+37416b5679483830764c5135356e446144482b4645673d3d
+46396a7a655730424642664a3463324e7255573248413d3d
+4c4f6e534a444e32393953514f7041327578313243413d3d
+544e4c384b7061593566684c3766746a364168322f413d3d
+67516c532b63374c45787a4e4474487a6b392b5a31773d3d
+306d2b7a7178584876526b744e2f6f6a3439555a72773d3d
+3638695039776b5466357041304e41427043674361673d3d
+3744626749304a54384152454f736e724b305a6e43513d3d
+544e4c384b7061593566684c3766746a364168322f413d3d
+67516c532b63374c45787a4e4474487a6b392b5a31773d3d
+736d6e547473593748695079706473572b6a58786e773d3d
+753237714c4f7351443538572b694431797432524b413d3d
+594e346d58645359456c64374c4e714b334b447142673d3d
+30662f46727059787971537270486c75556c45774a673d3d
+```
+
+Code decrypt các gói tin trên 
+```python
+from Crypto.Cipher import AES, PKCS1_OAEP
+import base64
+import winreg
+import os
+import hashlib
+from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
+import base64
+from Crypto.Util.Padding import unpad
+
+computer_name = "DESKTOP-KA3APTF"
+machine_guid = "955dbad6-c040-45d0-8739-e86d3a6f2120"
+
+iv = hashlib.sha256(computer_name.encode()).digest()[:16]
+key = hashlib.sha256(machine_guid.encode()).digest()
+
+def decrypt_aes_cbc(ciphertext: bytes, key: bytes, iv: bytes) -> bytes:
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = unpad(cipher.decrypt(ciphertext), AES.block_size)
+    return plaintext
+
+res = ''
+with open("data", "r") as f:
+    lines = f.read().splitlines()
+    for line in lines:
+        raw_line = bytes.fromhex(line)
+        res = res + decrypt_aes_cbc(base64.b64decode(raw_line), key, iv).decode("utf-8")
+
+print(res)
+```
+
+`res` trả về `pastebin.com/Key.shiftDLPxKey.shiftDrz6Key.enter`, lọc bớt các thao tác `shift, enter` (từ keylogger ghi lại), truy cập link bằng browser để có flag
+
+<img width="689" height="370" alt="image" src="https://github.com/user-attachments/assets/a4525d19-4389-449f-aa09-f8cb43b8956d" />
+
 
