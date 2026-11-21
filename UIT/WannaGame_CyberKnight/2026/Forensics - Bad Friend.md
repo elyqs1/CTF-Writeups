@@ -201,6 +201,7 @@ MemProcFS.exe -device challenge.dmp -forensic 1
 ```
 
 `machine_name` được lưu trữ tại `HKLM\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName`, value là `DESKTOP-KA3APTF`
+
 `machine_guid` được lưu trữ tại `HKLM:\SOFTWARE\Microsoft\Cryptography`, value là `955dbad6-c040-45d0-8739-e86d3a6f2120`
 
 Từ đó, có được 
@@ -210,13 +211,13 @@ Từ đó, có được
 ```
 
 ### Traffic
-Giờ đã có công cụ để giải mã các thao tác bàn phím  từ máy nạn nhân đến attacker.
+Giờ đã có công cụ để giải mã các thao tác bàn phím  từ máy của nạn nhân đến attacker.
 
 <img width="1552" height="697" alt="image" src="https://github.com/user-attachments/assets/03b24b13-db42-4b41-b67f-76ca80370e30" />
 
 Bắt trọn các stream bằng `tshark`
 ```
-$ tshark -r challenge.pcapng -Y "ip.src == 192.168.49.137 && ip.dst == 172.22.85.56&& tcp.dstport == 8080&&frame.len ==78" -T fields -e tcp.payload
+$ tshark -r challenge.pcapng -Y "ip.src == 192.168.49.137 && ip.dst == 172.22.85.56&& tcp.dstport == 8080&&frame.len ==78" -T fields -e tcp.payload > data
 4e464c6a306c43455066396e6c776a756a57443949773d3d
 7a474e6376717870706e4f7257683349366246614a513d3d
 384c6656706f366263516f4733616a38714a724c4c413d3d
