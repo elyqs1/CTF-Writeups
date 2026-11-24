@@ -72,7 +72,7 @@ Examine `/Users/t0mmy/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Star
 `b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk` is a shortcut file, check what is inside
 
 ```
-p$ strings b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk
+$ strings b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk
 B6296B~1.EXE
 ]tr.
 C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe
