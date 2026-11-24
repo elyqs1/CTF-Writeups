@@ -11,7 +11,7 @@ Answer: `Pidgin`
 
 Go to the path `evidence.ad1/root [AD1]/Users/t0mmy/AppData/Local/Microsoft/Edge/User Data/Default/History`
 
-View URL that user accessed using `DB Browser (SQLite)`
+View the URL that the user accessed using `DB Browser (SQLite)`
 
 <img width="1288" height="410" alt="image" src="https://github.com/user-attachments/assets/5305323c-07b7-4d38-b6ef-9e8fd786a694" />
 
@@ -23,10 +23,10 @@ With the instruction https://developer.pidgin.im/wiki/ConfigurationFiles.html wi
 Answer: `2026-08-27 10:30:28`
 
 Go to the path `evidence.ad1/root [AD1]/Windows/System32/winevt/Logs/Microsoft-Windows-Windows Defender%4Operational.evtx`.
-User `Event View` on your local device to open Microsoft-Windows-Windows Defender%4Operational.evtx
+Use `Event View` on your local device to open Microsoft-Windows-Windows Defender%4Operational.evtx
 
 After accessing https://techcommunity.microsoft.com/blog/microsoftsentinelblog/the-power-of-data-collection-rules-detect-disabling-windows-defender-real-time-p/4236540
-, we know the event ID of Real-time protection being disabled is `5001`
+, We know the event ID for Real-time protection being disabled is `5001`
 
 <img width="1395" height="214" alt="yes" src="https://github.com/user-attachments/assets/49f4e5b2-cfdb-4a32-950a-c9c258f96465" />
 
@@ -46,7 +46,7 @@ Answer: `supporter111@conversations.im`
 
 Answer: `AnyDesk:1355533822`
 
-Refering to article https://medium.com/@nandakumarp/anydesk-forensics-63b43200f8ae.
+Referring to the article https://medium.com/@nandakumarp/anydesk-forensics-63b43200f8ae.
 
 ## Q6. What is the full filename of the last malicious file that was executed on the machine? (format: filename.exe)
 
@@ -82,7 +82,7 @@ desktop-r9i8mf7
 
 That shortcut called `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` to execute. 
 
-When we check this path on disk, it was disappear. What happened? That file was deleted? Let's check at `$Recycled Bin`
+When we checked this path on disk, it had disappeared. What happened? Was that file deleted? Let's check at `$Recycled Bin`
 
 <img width="1780" height="355" alt="image" src="https://github.com/user-attachments/assets/a843efba-e987-4c27-a519-b23dc6acccd1" />
 
@@ -94,7 +94,7 @@ Examine `$RMGB4MQ.exe`
 
 <img width="1892" height="360" alt="image" src="https://github.com/user-attachments/assets/bb347fb9-0568-4d09-9cca-f2dd54e4c9b7" />
 
-`$RMGB4MQ.exe` is malware, the others is not, and we know `$RMGB4MQ.exe` correspond to `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` because of `$IMGB4MQ.exe` content.
+`$RMGB4MQ.exe` is malware; the others are not, and we know `$RMGB4MQ.exe` corresponds to `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` because of `$IMGB4MQ.exe` content.
 
 ```
 $ cat '$IMGB4MQ.exe'
@@ -109,7 +109,7 @@ Answer: `2026-08-28 14:26:10`
 
 <img width="1310" height="862" alt="image" src="https://github.com/user-attachments/assets/c64c238b-e1fe-465d-b68a-24ce17c246db" />
 
-Final flag : `All questions answered. Well done!
+Final flag: `All questions answered. Well done!
 W1{s1mpl3_w1nd0ws_4n6_chall3nge_hah!!!}`
 
 
