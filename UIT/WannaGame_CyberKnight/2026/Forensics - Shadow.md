@@ -57,6 +57,66 @@ Answer: `b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe`
 This indicates that `b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` was downloaded from the attacker's machine to the victim's machine
 using ClipBoard
 
+<img width="1920" height="535" alt="image" src="https://github.com/user-attachments/assets/e4df8f54-63c9-4efa-8390-13d54aed9d33" />
+
+Examine `Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist` in `NTUSER.DAT` stored at `/Users/t0mmy/`. It's apparent that it's the last malicious file executed on the machine.
+
+## Q7. Where is the persistence mechanism of that malware located? (Full file path)
+
+Answer: `C:\Users\t0mmy\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk`
+
+Examine `/Users/t0mmy/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup` (one of the most common Windows persistence mechanisms): 
+
+<img width="1267" height="131" alt="image" src="https://github.com/user-attachments/assets/ebc31048-66ba-407a-a192-a8ae9e32ffed" />
+
+`b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk` is a shortcut file, check what is inside
+
+```
+p$ strings b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.lnk
+B6296B~1.EXE
+]tr.
+C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe
+desktop-r9i8mf7
+1SPS
+```
+
+That shortcut called `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` to execute. 
+
+When we check this path on disk, it was disappear. What happened? That file was deleted? Let's check at `$Recycled Bin`
+
+<img width="1780" height="355" alt="image" src="https://github.com/user-attachments/assets/a843efba-e987-4c27-a519-b23dc6acccd1" />
+
+Every deleted item in Windows creates a pair with the exact same 6-character random suffix (e.g., $IXXXXXX.exe for metadata and $RXXXXXX.exe for the binary content).
+
+Check all visible `$RXXXXXX.exe` with `VirusTotal`
+
+Examine `$RMGB4MQ.exe`
+
+<img width="1892" height="360" alt="image" src="https://github.com/user-attachments/assets/bb347fb9-0568-4d09-9cca-f2dd54e4c9b7" />
+
+`$RMGB4MQ.exe` is malware, the others is not, and we know `$RMGB4MQ.exe` correspond to `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` because of `$IMGB4MQ.exe` content.
+
+```
+$ cat '$IMGB4MQ.exe'
+�;��^�6�\C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe
+```
+
+Therefore, `C:\Users\t0mmy\Desktop\b6296bad0fdf16df0811053e5c5cee71946d05e06222324e76dc26ec676ff976.exe` is malware.
+
+## Q8. At what timestamp (UTC) did the AnyDesk session end? (format: YYYY-MM-DD HH:MM:SS)
+
+Answer: `2026-08-28 14:26:10`
+
+<img width="1310" height="862" alt="image" src="https://github.com/user-attachments/assets/c64c238b-e1fe-465d-b68a-24ce17c246db" />
+
+Final flag : `All questions answered. Well done!
+W1{s1mpl3_w1nd0ws_4n6_chall3nge_hah!!!}`
+
+
+
+
+
+
 
 
 
